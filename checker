@@ -1,0 +1,31 @@
+import random
+
+def check_airdrop_eligibility_v2(user_activity, transactions):
+    # Criteria for eligibility
+    active_months = user_activity['active_months']
+    transaction_count = len(transactions)
+
+    # Check if the user has been active for at least 2 months
+    if active_months < 2:
+        return False
+
+    # Check if the user has at least 5 transactions
+    if transaction_count < 5:
+        return False
+
+    # Check if the user has made transactions in multiple categories
+    transaction_categories = set(transaction['category'] for transaction in transactions)
+    required_categories = {'shopping', 'crypto', 'entertainment'}
+
+    if not required_categories.issubset(transaction_categories):
+        return False
+
+    # Check if the user has a diverse set of transaction amounts
+    transaction_amounts = [transaction['amount'] for transaction in transactions]
+    unique_amounts = set(transaction_amounts)
+
+    if len(unique_amounts) < 3:
+        return False
+
+    # Check if the user has made a high-value transaction
+    if max(transaction
